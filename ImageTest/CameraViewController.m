@@ -11,6 +11,7 @@
 
 @interface CameraViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *lensLabel;
+@property (weak, nonatomic) IBOutlet UIView *captureView;
 @property (nonatomic) AVCaptureDevice *videoCaptureDevice;
 
 @end
@@ -26,9 +27,10 @@
     if (videoInput) {
         [captureSession addInput:videoInput];
         AVCaptureVideoPreviewLayer *previewLayer = [AVCaptureVideoPreviewLayer layerWithSession:captureSession];
-        UIView *aView = self.view;
+        UIView *aView = self.captureView;
         previewLayer.frame = aView.bounds; // Assume you want the preview layer to fill the view.
         [aView.layer addSublayer:previewLayer];
+        previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
         [captureSession startRunning];
         [self.videoCaptureDevice addObserver:self forKeyPath:@"lensPosition" options:NSKeyValueObservingOptionNew context:nil];
     }
@@ -50,19 +52,29 @@
     });
 }
 
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [touches enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        UITouch *touch = obj;
+        CGPoint touchPoint = [touch locationInView:touch.view];
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
+        CGFloat screenHeight = screenRect.size.height;
+        double focus_x = touchPoint.x/screenWidth;
+        double focus_y = touchPoint.y/screenHeight;
+        
+        NSError *error =nil;
+        [self.videoCaptureDevice lockForConfiguration:&error];
+        self.videoCaptureDevice.focusMode = AVCaptureFocusModeAutoFocus;
+        self.videoCaptureDevice.focusPointOfInterest = CGPointMake(focus_x,focus_y);
+        if (error) {
+            NSLog(@"%@", error);
+        }
+    }];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
