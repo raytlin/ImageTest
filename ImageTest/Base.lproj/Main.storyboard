@@ -90,6 +90,16 @@
                                             <rect key="frame" x="16" y="258" width="368" height="84"/>
                                         </variation>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="32p-Si-7rw">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <state key="normal" title="PRINT">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="printToConsole:" destination="F8s-R8-0sR" eventType="touchUpInside" id="hn5-1M-luY"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -97,11 +107,14 @@
                                     <constraint firstAttribute="width" constant="400" id="8f9-vK-y82"/>
                                     <constraint firstAttribute="height" constant="536" id="Lbd-55-Kba"/>
                                     <constraint firstItem="PID-3J-M0J" firstAttribute="leading" secondItem="uFX-A5-Bcb" secondAttribute="leading" constant="16" id="iYT-kb-bfU"/>
+                                    <constraint firstItem="32p-Si-7rw" firstAttribute="top" secondItem="PID-3J-M0J" secondAttribute="bottom" constant="8" symbolic="YES" id="mYY-pE-pgh"/>
+                                    <constraint firstAttribute="trailing" secondItem="32p-Si-7rw" secondAttribute="trailing" constant="17" id="og3-8a-zfA"/>
                                     <constraint firstAttribute="bottom" secondItem="PID-3J-M0J" secondAttribute="bottom" constant="187" id="xX5-1M-gwe"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="subviews">
                                         <exclude reference="PID-3J-M0J"/>
+                                        <exclude reference="32p-Si-7rw"/>
                                     </mask>
                                     <mask key="constraints">
                                         <exclude reference="8f9-vK-y82"/>
@@ -109,6 +122,8 @@
                                         <exclude reference="0Fh-fm-4wl"/>
                                         <exclude reference="iYT-kb-bfU"/>
                                         <exclude reference="xX5-1M-gwe"/>
+                                        <exclude reference="mYY-pE-pgh"/>
+                                        <exclude reference="og3-8a-zfA"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact">
@@ -120,11 +135,14 @@
                                 <variation key="heightClass=regular-widthClass=compact">
                                     <mask key="subviews">
                                         <include reference="PID-3J-M0J"/>
+                                        <include reference="32p-Si-7rw"/>
                                     </mask>
                                     <mask key="constraints">
                                         <include reference="0Fh-fm-4wl"/>
                                         <include reference="iYT-kb-bfU"/>
                                         <include reference="xX5-1M-gwe"/>
+                                        <include reference="mYY-pE-pgh"/>
+                                        <include reference="og3-8a-zfA"/>
                                     </mask>
                                 </variation>
                             </view>

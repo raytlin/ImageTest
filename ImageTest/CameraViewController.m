@@ -19,6 +19,8 @@
 
 @implementation CameraViewController
 
+#pragma mark - Lifecycle
+
 -(void)viewDidLoad {
     [super viewDidLoad];
     
@@ -40,19 +42,6 @@
     self.focusSquare.layer.borderColor = [UIColor yellowColor].CGColor;
     self.focusSquare.layer.borderWidth = 1.0f;
     [self.view addSubview:self.focusSquare];
-}
-
--(void)navBarDown {
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-}
-
--(void)navBarUp {
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-}
-
-// Get rid of status bar
--(BOOL)prefersStatusBarHidden{
-    return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,10 +66,30 @@
         NSLog(@"fuck");
     }
 }
+
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    // Stop key value observer
     [self.videoCaptureDevice removeObserver:self forKeyPath:@"lensPosition"];
 }
+
+#pragma mark - Nav and status bar hiding
+
+-(void)navBarDown {
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+}
+
+-(void)navBarUp {
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+}
+
+// Get rid of status bar
+-(BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+#pragma mark - Lens Position readout
 
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     NSNumber *number = [change objectForKey:@"new"];
@@ -90,6 +99,12 @@
        self.title = textString;
     });
 }
+
+- (IBAction)printToConsole:(id)sender {
+    NSLog(@"%@", [NSNumber numberWithDouble:self.videoCaptureDevice.lensPosition]);
+}
+
+#pragma mark - Touch to focus
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [touches enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -108,12 +123,15 @@
         // Set the focus indicator 
         self.focusSquare.center = touchPoint;
         [self.videoCaptureDevice unlockForConfiguration];
+
     }];
 }
 
+#pragma mark - Useless
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSLog(@"Go fudge yourself");
 }
 
 @end
